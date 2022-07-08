@@ -6,7 +6,7 @@ public class CacheSimulator {
     Cache ca = new Cache();
     private final int dirtyColumn = 3;
      public void initializeArray() {
-         //Initializing Main memory(set all data in MM to 0)
+         //Initializing Main memory (set all data in MM to 0)
          for (short i = 0; i <= 0x7FF; i++) {
              ca.getMainMem()[i] = i;
              if (i > 0xFF) {
@@ -55,17 +55,17 @@ public class CacheSimulator {
                          if (ca.getCache()[ca.getSlot()][dirtyColumn] == 0) {
                              System.out.println("Copying entire block from main memory...");
                              ca.copyMM(); //Copy current address block from MM
-                             ca.updateTag();
+                             ca.updateTag(); //Current Tag #
                              System.out.println("Cache update in address "+ Integer.toHexString(ca.getAddress())+ ":");
                              ca.displayCache();
                          }
                          //Dirty bit == 1 --> update MM from cache, and then get entire block from MM
-                         if (ca.getCache()[ca.getSlot()][dirtyColumn] == 1) {
+                         else {
                              System.out.println("Update main memory..");
                              ca.copyCacheToPrevAdd(); //Copy cache to previous address MM
                              System.out.println("Copy entire block from main memory...");
                              ca.copyMM(); //Copy current address block from MM
-                             ca.updateTag();
+                             ca.updateTag(); //Current Tag #
                              ca.updateDirtyBit(); //set dirty bit to 0
                              System.out.println("Cache update in address "+ Integer.toHexString(ca.getAddress())+ ":");
                              ca.displayCache();
@@ -77,7 +77,7 @@ public class CacheSimulator {
                          ca.updateValid(); //valid number to 1
                          System.out.println("Copy entire block from main memory...");
                          ca.copyMM(); //Copy current address block from MM
-                         ca.updateTag();
+                         ca.updateTag(); //Current Tag #
                          System.out.println("Cache update in address "+ Integer.toHexString(ca.getAddress())+ ":");
                          ca.displayCache();
                      }
@@ -97,9 +97,9 @@ public class CacheSimulator {
                  //Check if it is a Hit. (valid# == 1 && Tag match) write data in cache
                  if (ca.cacheHit()) {
                      System.out.println("Value " + ca.getData() + " has been written to address " + Integer.toHexString(ca.getAddress()) + " (Cache Hit)");
-                     ca.writeData();
+                     ca.writeData(); //Write the user's data input at the address
                      ca.updateDirtyBit(); //Set dirty bit to 1
-                     ca.updateTag();
+                     ca.updateTag(); //Current Tag #
                  }
                  //Check if it is a Miss.
                  else {
@@ -112,24 +112,24 @@ public class CacheSimulator {
                              System.out.println("Copying entire block from main memory...");
                              ca.copyMM(); //Copy current address block from MM
                              System.out.println("Writing data in cache...");
-                             ca.writeData();
+                             ca.writeData(); //Write the user's data input at the address
                              ca.updateDirtyBit(); //dirty bit to 1
-                             ca.updateTag();
+                             ca.updateTag(); //Current Tag #
                              System.out.println("Value " + ca.getData() + " has been written to address " + Integer.toHexString(ca.getAddress()));
                              System.out.println("Cache update in address "+ Integer.toHexString(ca.getAddress())+ ":");
                              ca.displayCache();
                          }
                          //Dirty bit == 1 --> update MM from cache & get entire block from MM
-                         if (ca.getCache()[ca.getSlot()][dirtyColumn] == 1) {
+                         else {
                              System.out.println("Update main memory...");
                              ca.copyCacheToPrevAdd(); //Copy cache to previous address MM
                              System.out.println("Copy entire block from main memory...");
                              ca.copyMM(); //Copy current address block from MM
                              ca.updateDirtyBit(); //valid bit to 0
                              System.out.println("Writing data in cache...");
-                             ca.writeData();
+                             ca.writeData(); //Write the user's data input at the address
                              ca.updateDirtyBit(); //valid bit to 1
-                             ca.updateTag();
+                             ca.updateTag(); //Current Tag #
                              System.out.println("Value " + ca.getData() + " has been written to address " + Integer.toHexString(ca.getAddress()));
                              System.out.println("Cache update in address "+ Integer.toHexString(ca.getAddress())+ ":");
                              ca.displayCache();
@@ -140,9 +140,9 @@ public class CacheSimulator {
                          System.out.println("Copy entire block from main memory...");
                          ca.copyMM(); //Copy current address block from MM
                          System.out.println("Writing data in cache...");
-                         ca.writeData();
+                         ca.writeData(); //Write the user's data input at the address
                          ca.updateDirtyBit(); //Set dirty bit to 1
-                         ca.updateTag();
+                         ca.updateTag(); //Current Tag #
                          System.out.println("Value " + ca.getData() + " has been written to address " + Integer.toHexString(ca.getAddress()));
                          System.out.println("Cache update in address "+ Integer.toHexString(ca.getAddress())+ ":");
                          ca.displayCache();

@@ -2,7 +2,7 @@
 package ComputerArchitecture;
 
 public class Cache {
-    private int[] mainMem  = new int[2048];
+    private int[] mainMem  = new int[2048]; //2K memory
     private int[][] cache = new int[16][20]; //row(0-F), column(lotNum, validNum, tag, dirtyBit, data, slot number)
     private int blockOffset;
     private int slot;
@@ -118,6 +118,7 @@ public class Cache {
     }
 
     public void copyMM() {
+        //Copy the entire block from MM
         for (short i = 0; i <16; i++){
             cache[slot][i + 4] = mainMem[blockStart + i];
         }
@@ -130,18 +131,19 @@ public class Cache {
     }
     public void copyCacheToPrevAdd(){
         int prevAddress = (cache[slot][tagColumn] << 8) + (slot << 4); //Get the previous address
+        //Copy cache to previous address MM
         for (int i=0; i < 16; i++) {
             mainMem[prevAddress + i] = cache[slot][i + 4];
         }
     }
 
     public void writeData() {
-        //write data input to cache
+        //write user's data input to cache
             cache[slot][4 + blockOffset] = Integer.parseInt(data, 16);
     }
 
-    public void updateValid() {
-       cache[slot][1] =1;
+    public void updateValid() { //Update valid # to 1
+        cache[slot][1] =1;
     }
 
     public void updateDirtyBit() {
